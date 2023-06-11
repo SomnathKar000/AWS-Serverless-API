@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.350.0",
     "@aws-sdk/lib-dynamodb": "^3.350.0",
     "@aws-sdk/util-dynamodb": "^3.350.0",
-    "aws-sdk": "^2.1395.0",
     "serverless-iam-roles-per-function": "^3.2.0"
   }
 }
