@@ -15,7 +15,12 @@ const getProduct = async (event) => {
       Key: marshall({ productId: event.pathParameters.productId }),
     };
     const { Item } = await db.send(new GetItemCommand(params));
-    return buildResponse(200, Item);
+    const body = {
+      Success: true,
+      data: Item ? unmarshall(Item) : {},
+      rawData: data,
+    };
+    return buildResponse(body);
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
@@ -30,13 +35,10 @@ const createProduct = async (event) => {
     };
     const data = await db.send(new PutItemCommand(params));
     const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        Success: true,
-        data: data,
-      }),
+      Success: true,
+      data: data,
     };
-    return response;
+    return buildResponse(response);
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
@@ -71,13 +73,10 @@ const updateProduct = async (event) => {
     };
     const data = await db.send(new UpdateItemCommand(params));
     const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        Success: true,
-        data: data,
-      }),
+      Success: true,
+      data: data,
     };
-    return response;
+    return buildResponse(response);
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
@@ -90,14 +89,11 @@ const deleteProduct = async (event) => {
       Key: marshall({ productId: event.pathParameters.productId }),
     };
     const data = await db.send(new DeleteItemCommand(params));
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        Success: true,
-        data: data,
-      }),
+    const body = {
+      Success: true,
+      data: data,
     };
-    return response;
+    return buildResponse(body);
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
@@ -108,28 +104,21 @@ const getAllProducts = async (event) => {
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
     };
-    const data = await db.send(new ScanCommand(params));
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        Success: true,
-        data: data,
-      }),
+    const { Items } = await db.send(new ScanCommand(params));
+    const body = {
+      Success: true,
+      data: Items.map((item) => unmarshall(item)),
     };
-    return response;
+    return buildResponse(body);
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
 };
 
-const buildResponse = (statusCode, data) => {
+const buildResponse = (body) => {
   return {
-    statusCode: statusCode,
-    body: JSON.stringify({
-      Success: true,
-      data: data ? unmarshall(data) : {},
-      rawData: data,
-    }),
+    statusCode: 200,
+    body: JSON.stringify(body),
   };
 };
 
