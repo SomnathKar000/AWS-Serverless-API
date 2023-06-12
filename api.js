@@ -115,8 +115,17 @@ const getAllProducts = async (event) => {
       Success: true,
       message: "Successfully retrieved all products ",
       data: Items.map((item) => unmarshall(item)),
+      rawData: Items,
     };
     return buildResponse(body);
+  } catch (error) {
+    return customError(500, error.message, error.stack);
+  }
+};
+
+const getAllDynamoData = async (dbParams, items) => {
+  try {
+    const Products = await db.send(new ScanCommand(dbParams));
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
