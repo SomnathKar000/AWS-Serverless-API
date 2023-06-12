@@ -54,9 +54,9 @@ functions:
           method: PATCH
     iamRoleStatements:
       - Effect: "Allow"
-      Action:
-        - "dynamodb:UpdateItem"
-      Resources: !GetAtt ProductsTable.Arn
+        Action:
+          - "dynamodb:UpdateItem"
+        Resources: !GetAtt ProductsTable.Arn
   deleteProduct:
     handler: api.deleteProduct
     name: delete-product
@@ -68,9 +68,9 @@ functions:
           method: DELETE
     iamRoleStatements:
       - Effect: "Allow"
-      Action:
-        - "dybnamodb:DeleteItem"
-      Resources: !GetAtt ProductsTable.Arn
+        Action:
+          - "dybnamodb:DeleteItem"
+        Resources: !GetAtt ProductsTable.Arn
   getAllProducts:
     handler: api.getAllProducts
     name: get-all-products
@@ -82,9 +82,9 @@ functions:
           method: GET
     iamRoleStatements
       - Effect: "Allow"
-      Action:
-        - "dynamodb:Scan"
-      Resources: !GetAtt ProductsTable.Arn
+        Action:
+          - "dynamodb:Scan"
+        Resources: !GetAtt ProductsTable.Arn
 
 resources:
   Resources:
