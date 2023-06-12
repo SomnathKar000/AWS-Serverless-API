@@ -110,7 +110,7 @@ const getAllProducts = async (event) => {
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
     };
-    const { Items } = await getAllDynamoData(params, []);
+    const Items = await getAllDynamoData(params, []);
     const body = {
       Success: true,
       message: "Successfully retrieved all products ",
