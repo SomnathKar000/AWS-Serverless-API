@@ -126,10 +126,10 @@ const getAllProducts = async (event) => {
 const getAllDynamoData = async (dbParams, Items) => {
   try {
     const Products = await db.send(new ScanCommand(dbParams));
-    Items.concat(Products.Items);
+    Items = Items.concat(Products.Items);
     if (Products.LastEvaluatedKey) {
       dbParams.ExclusiveStartKey = Products.LastEvaluatedKey;
-      getAllDynamoData(dbParams, Items);
+      await getAllDynamoData(dbParams, Items);
     }
     return Items;
   } catch (error) {
