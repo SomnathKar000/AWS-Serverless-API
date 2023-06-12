@@ -18,17 +18,17 @@ functions:
   getProduct:
     handler: api.getProduct
     name: get-product
-    memorySize: 128 # mb
-    timeout: 5 # seconds
+    memorySize: 128
+    timeout: 5
     events:
       - http:
           path: product/{productId}
           method: GET
     iamRoleStatements:
-      - Effect: "Allow"
+      - Effect: Allow
         Action:
-          - "dynamodb:GetItem"
-        Resources: !GetAtt ProductsTable.Arn
+          - dynamodb:GetItem
+        Resource: "arn:aws:dynamodb:ap-south-1:*:table/${self:custom.productsTableName}"
   createProduct:
     handler: api.createProduct
     name: create-product
@@ -39,10 +39,10 @@ functions:
           path: product
           method: POST
     iamRoleStatements:
-      - Effect: "Allow"
+      - Effect: Allow
         Action:
-          - "dynamodb:PutItem"
-        Resources: !GetAtt ProductsTable.Arn
+          - dynamodb:PutItem
+        Resource: "arn:aws:dynamodb:ap-south-1:*:table/${self:custom.productsTableName}"
   updateProduct:
     handler: api.updateProduct
     name: update-product
@@ -53,10 +53,10 @@ functions:
           path: product/{productId}
           method: PATCH
     iamRoleStatements:
-      - Effect: "Allow"
+      - Effect: Allow
         Action:
-          - "dynamodb:UpdateItem"
-        Resources: !GetAtt ProductsTable.Arn
+          - dynamodb:UpdateItem
+        Resource: "arn:aws:dynamodb:ap-south-1:*:table/${self:custom.productsTableName}"
   deleteProduct:
     handler: api.deleteProduct
     name: delete-product
@@ -67,10 +67,10 @@ functions:
           path: product/{productId}
           method: DELETE
     iamRoleStatements:
-      - Effect: "Allow"
+      - Effect: Allow
         Action:
-          - "dynamodb:DeleteItem"
-        Resources: !GetAtt ProductsTable.Arn
+          - dynamodb:DeleteItem
+        Resource: "arn:aws:dynamodb:ap-south-1:*:table/${self:custom.productsTableName}"
   getAllProducts:
     handler: api.getAllProducts
     name: get-all-products
@@ -81,10 +81,10 @@ functions:
           path: products
           method: GET
     iamRoleStatements:
-      - Effect: "Allow"
+      - Effect: Allow
         Action:
-          - "dynamodb:Scan"
-        Resources: !GetAtt ProductsTable.Arn
+          - dynamodb:Scan
+        Resource: "arn:aws:dynamodb:ap-south-1:*:table/${self:custom.productsTableName}"
 
 resources:
   Resources:
