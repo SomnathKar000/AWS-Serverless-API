@@ -40,7 +40,7 @@ functions:
           method: POST
     iamRoleStatements:
       - Effect: "Allow"
-        Action: 
+        Action:
           - "dynamodb:PutItem"
         Resources: !GetAtt ProductsTable.Arn
   updateProduct:
@@ -80,7 +80,7 @@ functions:
       - http:
           path: products
           method: GET
-    iamRoleStatements
+    iamRoleStatements:
       - Effect: "Allow"
         Action:
           - "dynamodb:Scan"
