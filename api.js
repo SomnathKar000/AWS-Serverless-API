@@ -110,7 +110,7 @@ const getAllProducts = async (event) => {
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
     };
-    const { Items } = await db.send(new ScanCommand(params));
+    const { Items } = await getAllDynamoData(params, []);
     const body = {
       Success: true,
       message: "Successfully retrieved all products ",
@@ -123,9 +123,15 @@ const getAllProducts = async (event) => {
   }
 };
 
-const getAllDynamoData = async (dbParams, items) => {
+const getAllDynamoData = async (dbParams, Items) => {
   try {
     const Products = await db.send(new ScanCommand(dbParams));
+    Items.concat(Products.Items);
+    if (Products.LastEvaluatedKey) {
+      dbParams.ExclusiveStartKey = Products.LastEvaluatedKey;
+      getAllDynamoData(dbParams, Items);
+    }
+    return Items;
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
