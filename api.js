@@ -87,11 +87,11 @@ const getAllProducts = async (event) => {
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
     };
-    const { Items } = await db.send(new ScanCommand(params));
+    const data = await db.send(new ScanCommand(params));
     const response = {
       statusCode: 200,
       Success: true,
-      data: Items.map((item) => unmarshall(item)),
+      data: data,
     };
     return response;
   } catch (error) {
