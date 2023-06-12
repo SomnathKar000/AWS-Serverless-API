@@ -31,8 +31,10 @@ const createProduct = async (event) => {
     const data = await db.send(new PutItemCommand(params));
     const response = {
       statusCode: 200,
-      Success: true,
-      data: data,
+      body: JSON.stringify({
+        Success: true,
+        data: data,
+      }),
     };
     return response;
   } catch (error) {
@@ -67,8 +69,15 @@ const updateProduct = async (event) => {
         )
       ),
     };
-    const response = await db.send(new UpdateItemCommand(params));
-    return buildResponse(200, response);
+    const data = await db.send(new UpdateItemCommand(params));
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify({
+        Success: true,
+        data: data,
+      }),
+    };
+    return response;
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
@@ -83,8 +92,10 @@ const deleteProduct = async (event) => {
     const data = await db.send(new DeleteItemCommand(params));
     const response = {
       statusCode: 200,
-      Success: true,
-      data: data,
+      body: JSON.stringify({
+        Success: true,
+        data: data,
+      }),
     };
     return response;
   } catch (error) {
@@ -100,8 +111,10 @@ const getAllProducts = async (event) => {
     const data = await db.send(new ScanCommand(params));
     const response = {
       statusCode: 200,
-      Success: true,
-      data: data,
+      body: JSON.stringify({
+        Success: true,
+        data: data,
+      }),
     };
     return response;
   } catch (error) {
