@@ -17,8 +17,9 @@ const getProduct = async (event) => {
     const { Item } = await db.send(new GetItemCommand(params));
     const body = {
       Success: true,
+      message: "Successfully retrieved Product",
       data: Item ? unmarshall(Item) : {},
-      rawData: data,
+      rawData: Item,
     };
     return buildResponse(body);
   } catch (error) {
@@ -36,7 +37,9 @@ const createProduct = async (event) => {
     const data = await db.send(new PutItemCommand(params));
     const response = {
       Success: true,
-      data: data,
+      message: "Successfully created product ",
+      data: body,
+      rawData: data,
     };
     return buildResponse(response);
   } catch (error) {
@@ -74,7 +77,9 @@ const updateProduct = async (event) => {
     const data = await db.send(new UpdateItemCommand(params));
     const response = {
       Success: true,
-      data: data,
+      message: "Successfully updated product ",
+      data: body,
+      rawData: data,
     };
     return buildResponse(response);
   } catch (error) {
@@ -91,6 +96,7 @@ const deleteProduct = async (event) => {
     const data = await db.send(new DeleteItemCommand(params));
     const body = {
       Success: true,
+      message: "Successfully deleted product ",
       data: data,
     };
     return buildResponse(body);
@@ -107,6 +113,7 @@ const getAllProducts = async (event) => {
     const { Items } = await db.send(new ScanCommand(params));
     const body = {
       Success: true,
+      message: "Successfully retrieved all products ",
       data: Items.map((item) => unmarshall(item)),
     };
     return buildResponse(body);
