@@ -22,14 +22,11 @@ const getProduct = async (event) => {
 };
 
 const createProduct = async (event) => {
-  if (!event.body.productId) {
-    return customError(404, "ProductId can not found");
-  }
   try {
     const body = JSON.parse(event.body);
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
-      Item: marshall(body),
+      Item: marshall(body || {}),
     };
     const result = await db.send(new PutItemCommand(params));
     return buildResponse(200, result);
