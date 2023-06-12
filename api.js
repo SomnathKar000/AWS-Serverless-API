@@ -28,8 +28,13 @@ const createProduct = async (event) => {
       TableName: process.env.DYNAMODB_TABLE_NAME,
       Item: marshall(body),
     };
-    const result = await db.send(new PutItemCommand(params));
-    return buildResponse(200, result);
+    const data = await db.send(new PutItemCommand(params));
+    const response = {
+      statusCode: 200,
+      Success: true,
+      data: data,
+    };
+    return response;
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
@@ -75,8 +80,13 @@ const deleteProduct = async (event) => {
       TableName: process.env.DYNAMODB_TABLE_NAME,
       Key: marshall({ productId: event.pathParameters.productId }),
     };
-    const response = await db.send(new DeleteItemCommand(params));
-    return buildResponse(200, response);
+    const data = await db.send(new DeleteItemCommand(params));
+    const response = {
+      statusCode: 200,
+      Success: true,
+      data: data,
+    };
+    return response;
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
