@@ -1,4 +1,3 @@
-const db = require("./connectDB");
 const {
   GetItemCommand,
   PutItemCommand,
@@ -7,6 +6,8 @@ const {
   UpdateItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
+const db = require("./config/database");
+const { buildResponse, customError } = require("./utils/customResponse");
 
 const getProduct = async (event) => {
   try {
@@ -135,24 +136,6 @@ const getAllDynamoData = async (dbParams, Items) => {
   } catch (error) {
     return customError(500, error.message, error.stack);
   }
-};
-
-const buildResponse = (body) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(body),
-  };
-};
-
-const customError = (statusCode, message, stack) => {
-  return {
-    statusCode: statusCode,
-    body: JSON.stringify({
-      Status: false,
-      message: message,
-      stack: stack ? stack : {},
-    }),
-  };
 };
 
 module.exports = {
