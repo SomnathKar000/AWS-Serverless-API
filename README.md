@@ -1,5 +1,7 @@
 ﻿# AWS-Serverless-API
 
+This project provides a serverless CRUD (Create, Read, Update, Delete) API for DynamoDB using AWS Lambda and the Serverless Framework.
+
 ## Serverless API Advantages :
 
 1. No need to provision or manage the servers
